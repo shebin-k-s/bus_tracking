@@ -1,6 +1,9 @@
-import authRoute from './authRoute.js'
+import authRouter from './authRouter.js'
+import busRouter from './busRouter.js'
+import routeRouter from './routeRouter.js'
 
 export {
-    authRoute,
-
+    authRouter,
+    busRouter,
+    routeRouter
 };
