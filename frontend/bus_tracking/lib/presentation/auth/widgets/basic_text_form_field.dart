@@ -7,17 +7,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class BasicTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
-  final IconData icon;
+  final IconData? suffixIcon;
+  final IconData? prefixIcon;
   final FormFieldValidator<String>? validator;
   final bool obscureText;
+  final Color mainColor;
+  final Color? iconColor;
+  final double labelSize;
 
   const BasicTextFormField({
     super.key,
     required this.controller,
     required this.label,
-    required this.icon,
+    this.suffixIcon,
+    this.prefixIcon,
     this.validator,
     this.obscureText = false,
+    this.mainColor = AppColors.primary,
+    this.labelSize = 14,
+    this.iconColor,
   });
 
   @override
@@ -30,10 +38,25 @@ class BasicTextFormField extends StatelessWidget {
             controller: controller,
             validator: validator,
             obscureText: obscureText && !state.showPassword,
-            cursorColor: AppColors.primary,
-            
+            cursorColor: mainColor,
+            style: TextStyle(
+              color: iconColor
+            ),
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(
+                bottom: 20,
+                left: 20,
+              ),
+              
               labelText: label,
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+              floatingLabelStyle: TextStyle(
+                fontSize: labelSize,
+                color: iconColor ??
+                    (context.isDarkMode
+                        ? Colors.white.withOpacity(0.75)
+                        : Colors.black.withOpacity(0.75)),
+              ),
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.red.withOpacity(0.75),
@@ -42,46 +65,58 @@ class BasicTextFormField extends StatelessWidget {
               ),
               errorStyle: TextStyle(color: Colors.red.withOpacity(0.75)),
               labelStyle: TextStyle(
-                fontSize: 14,
-                color: context.isDarkMode
-                    ? Colors.white.withOpacity(0.75)
-                    : Colors.black.withOpacity(0.75),
+                fontSize: labelSize,
+                color: iconColor ??
+                    (context.isDarkMode
+                        ? Colors.white.withOpacity(0.75)
+                        : Colors.black.withOpacity(0.75)),
               ),
-              suffixIcon: obscureText 
-                  ? IconButton(
-                      icon: Icon(
-                        state.showPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: context.isDarkMode
-                            ? Colors.white.withOpacity(0.75)
-                            : Colors.black.withOpacity(0.75),
-                      ),
-                      onPressed: () => context
-                          .read<PasswordVisibilityCubit>()
-                          .toggleVisibility(),
-                    )
+              prefixIcon: prefixIcon == null
+                  ? null
                   : Icon(
-                      icon,
-                      color: context.isDarkMode
-                          ? Colors.white.withOpacity(0.75)
-                          : Colors.black.withOpacity(0.75),
+                      prefixIcon,
+                      color: iconColor ??
+                          (context.isDarkMode
+                              ? Colors.white.withOpacity(0.75)
+                              : Colors.black.withOpacity(0.75)),
                     ),
+              suffixIcon: suffixIcon == null
+                  ? null
+                  : obscureText
+                      ? IconButton(
+                          icon: Icon(
+                            state.showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: context.isDarkMode
+                                ? Colors.white.withOpacity(0.75)
+                                : Colors.black.withOpacity(0.75),
+                          ),
+                          onPressed: () => context
+                              .read<PasswordVisibilityCubit>()
+                              .toggleVisibility(),
+                        )
+                      : Icon(
+                          suffixIcon,
+                          color: context.isDarkMode
+                              ? Colors.white.withOpacity(0.75)
+                              : Colors.black.withOpacity(0.75),
+                        ),
               border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xff407BFF),
+                borderSide: BorderSide(
+                  color: mainColor,
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xff407BFF),
+                borderSide: BorderSide(
+                  color: mainColor,
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xff407BFF),
+                borderSide: BorderSide(
+                  color: mainColor,
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),

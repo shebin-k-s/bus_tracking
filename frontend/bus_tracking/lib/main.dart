@@ -1,8 +1,11 @@
 import 'package:bus_tracking/core/configs/theme/app_theme.dart';
+import 'package:bus_tracking/presentation/profile/bloc/theme/theme_cubit.dart';
 import 'package:bus_tracking/presentation/splash/pages/splash_screen.dart';
 import 'package:bus_tracking/service_locator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +17,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+
   setupServiceLocator();
   runApp(const MyApp());
 }
@@ -27,11 +31,29 @@ class MyApp extends StatelessWidget {
       designSize: const Size(393, 852),
       minTextAdapt: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          home: const SplashScreen(),
+        return BlocProvider(
+          create: (context) => ThemeCubit(),
+          child: BlocBuilder<ThemeCubit, ThemeMode>(
+            buildWhen: (previous, current) => previous != current,
+            builder: (context, state) {
+               SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle(
+                  statusBarColor:
+                      state == ThemeMode.dark ? Colors.black : Colors.white,
+                  statusBarIconBrightness:
+                      state == ThemeMode.dark ? Brightness.light : Brightness.dark,
+                ),
+              );
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                themeMode: state,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                home: const SplashScreen(),
+              );
+              
+            },
+          ),
         );
       },
     );

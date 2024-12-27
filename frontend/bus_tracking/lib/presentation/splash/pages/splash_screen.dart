@@ -25,11 +25,11 @@ class SplashScreen extends StatelessWidget {
   }
 
   void checkUserLoggedin(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
 
     final sharedPref = await SharedPreferences.getInstance();
 
-    final token = sharedPref.getString('TOKENs');
+    final token = sharedPref.getString('TOKEN');
 
     if (token != null) {
       AppNavigator.pushReplacement(context, const MainScreen());

@@ -6,13 +6,13 @@ import 'package:bus_tracking/presentation/main/widgets/basic_bottom_navigation.d
 import 'package:bus_tracking/presentation/profile/pages/profile_navigator_screen.dart';
 import 'package:bus_tracking/presentation/ticket/pages/ticket_navigator_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
-  Future<bool> systemBackButtonPress(int index) async {                                                          
+  Future<bool> systemBackButtonPress(int index) async {
+   
     if (GlobalNavigatorKeys.navigatorKeys[index].currentState?.canPop() ==
         true) {
       GlobalNavigatorKeys.navigatorKeys[index].currentState?.pop();
@@ -41,14 +41,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: context.isDarkMode ? Colors.black : Colors.white,
-        statusBarIconBrightness:
-            context.isDarkMode ? Brightness.light : Brightness.dark,
-      ),
-    );
-
     return BlocProvider(
       create: (context) => BottomNavigationCubit(),
       child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(

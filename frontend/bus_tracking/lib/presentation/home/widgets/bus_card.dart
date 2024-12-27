@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
 import 'package:bus_tracking/common/widgets/button/basic_app_button.dart';
 import 'package:bus_tracking/core/configs/assets/app_vectors.dart';

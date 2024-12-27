@@ -116,7 +116,7 @@ class SignupScreen extends StatelessWidget {
                       children: [
                         BasicTextFormField(
                           controller: nameController,
-                          icon: Icons.person,
+                          suffixIcon: Icons.person,
                           label: "Full name",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -130,7 +130,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                         BasicTextFormField(
                           controller: emailController,
-                          icon: Icons.mail,
+                          suffixIcon: Icons.mail,
                           label: "Email id",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -147,7 +147,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                         BasicTextFormField(
                           controller: passwordController,
-                          icon: Icons.lock,
+                          suffixIcon: Icons.lock,
                           label: "Password",
                           obscureText: true,
                           validator: (value) {
@@ -162,7 +162,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                         BasicTextFormField(
                           controller: confirmPasswordController,
-                          icon: Icons.lock,
+                          suffixIcon: Icons.lock,
                           label: "Confirm password",
                           validator: (value) {
                             if (value == null || value.isEmpty) {

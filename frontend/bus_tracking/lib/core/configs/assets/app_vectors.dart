@@ -10,6 +10,8 @@ class AppVectors {
   static const String ticketFilled = "${basePath}ticket_filled.svg";
   static const String ticketOutlined = "${basePath}ticket_outlined.svg";
 
-   static const String homeFilled = "${basePath}home_filled.svg";
+  static const String homeFilled = "${basePath}home_filled.svg";
   static const String homeOutlined = "${basePath}home_outlined.svg";
+
+  static const String dottedLine = "${basePath}dotted_line.svg";
 }

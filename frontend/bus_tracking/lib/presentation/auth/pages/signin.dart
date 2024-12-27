@@ -24,7 +24,7 @@ class SigninScreen extends StatelessWidget {
     final TextEditingController emailController =
         TextEditingController(text: "shebh@gecskp.ac.in");
     final TextEditingController passwordController =
-        TextEditingController(text: "shebin");
+        TextEditingController(text: "ssss");
     return Scaffold(
       appBar: const BasicAppbar(),
       bottomNavigationBar: Row(
@@ -112,7 +112,7 @@ class SigninScreen extends StatelessWidget {
                       children: [
                         BasicTextFormField(
                           controller: emailController,
-                          icon: Icons.mail,
+                          suffixIcon: Icons.mail,
                           label: "Email id",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -129,7 +129,7 @@ class SigninScreen extends StatelessWidget {
                         ),
                         BasicTextFormField(
                           controller: passwordController,
-                          icon: Icons.lock,
+                          suffixIcon: Icons.lock,
                           label: "Password",
                           obscureText: true,
                           validator: (value) {

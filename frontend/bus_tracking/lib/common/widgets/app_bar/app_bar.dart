@@ -1,5 +1,4 @@
 import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {

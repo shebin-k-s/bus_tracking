@@ -6,7 +6,7 @@ class TicketScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("Ticket Screen"),
+      body: SafeArea(child: Text("Ticket Screen")),
     );
   }
 }

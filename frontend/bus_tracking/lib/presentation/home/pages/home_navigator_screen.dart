@@ -1,6 +1,6 @@
 import 'package:bus_tracking/core/navigation_keys/navigation_keys.dart';
 import 'package:bus_tracking/presentation/home/pages/home_screen.dart';
-import 'package:bus_tracking/presentation/onboarding/pages/onboarding_screen.dart';
+import 'package:bus_tracking/presentation/ticket/pages/ticket_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigatorScreen extends StatelessWidget {
@@ -19,8 +19,8 @@ class HomeNavigatorScreen extends StatelessWidget {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) {
-            if (settings.name == "/view-bus") {
-              return OnboardingScreen();
+            if (settings.name == "/ticket") {
+              return const TicketScreen();
             }
             return const HomeScreen();
           },
