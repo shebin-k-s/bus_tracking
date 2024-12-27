@@ -1,5 +1,6 @@
 import 'package:bus_tracking/core/configs/theme/app_theme.dart';
 import 'package:bus_tracking/presentation/splash/pages/splash_screen.dart';
+import 'package:bus_tracking/service_locator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
-
+  setupServiceLocator();
   runApp(const MyApp());
 }
 

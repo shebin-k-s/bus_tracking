@@ -6,6 +6,7 @@ class BasicAppButton extends StatelessWidget {
   final String title;
   final double? height;
   final double? width;
+  final bool isLoading;
 
   const BasicAppButton({
     super.key,
@@ -13,6 +14,7 @@ class BasicAppButton extends StatelessWidget {
     required this.title,
     this.height,
     this.width,
+    this.isLoading = false,
   });
 
   @override
@@ -22,12 +24,17 @@ class BasicAppButton extends StatelessWidget {
       width: width ?? 313.w,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
+        child: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                color: Colors.white,
+              ))
+            : Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }

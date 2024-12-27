@@ -1,7 +1,7 @@
 import 'package:bus_tracking/common/helpers/navigation.dart';
-import 'package:bus_tracking/presentation/auth/pages/signin.dart';
+import 'package:bus_tracking/presentation/main/pages/main_screen.dart';
 import 'package:bus_tracking/presentation/onboarding/bloc/carousel/carousel_cubit.dart';
-import 'package:bus_tracking/presentation/onboarding/pages/onboarding_screen1.dart';
+import 'package:bus_tracking/presentation/onboarding/pages/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,18 +29,19 @@ class SplashScreen extends StatelessWidget {
 
     final sharedPref = await SharedPreferences.getInstance();
 
-    final token = sharedPref.getString('TOKEN');
+    final token = sharedPref.getString('TOKENs');
 
-    if (token == null) {
+    if (token != null) {
+      AppNavigator.pushReplacement(context, const MainScreen());
+    } else {
       AppNavigator.pushReplacement(
         context,
         BlocProvider(
           create: (context) => CarouselCubit(),
-          child: OnboardingScreen1(),
+          child: OnboardingScreen(),
         ),
       );
-    } else {
-      AppNavigator.pushReplacement(context, const SigninScreen());
-    }
+       }
   }
 }
+

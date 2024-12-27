@@ -21,8 +21,8 @@ class IntroData {
   IntroData({required this.imagePath, required this.message});
 }
 
-class OnboardingScreen1 extends StatelessWidget {
-  OnboardingScreen1({super.key});
+class OnboardingScreen extends StatelessWidget {
+  OnboardingScreen({super.key});
   final CarouselSliderController carouselController =
       CarouselSliderController();
   @override

@@ -9,6 +9,10 @@ class AppTheme {
     brightness: Brightness.light,
     fontFamily: 'JetBrains',
     splashFactory: NoSplash.splashFactory,
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: AppColors.primary.withOpacity(0.5),
+      selectionHandleColor: AppColors.primary,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
@@ -30,6 +34,10 @@ class AppTheme {
     brightness: Brightness.dark,
     splashFactory: NoSplash.splashFactory,
     fontFamily: 'JetBrains',
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: AppColors.primary.withOpacity(0.5),
+      selectionHandleColor: AppColors.primary,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
