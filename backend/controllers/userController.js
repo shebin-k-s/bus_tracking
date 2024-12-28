@@ -12,9 +12,9 @@ export const signupUser = async (req, res) => {
 
 
     try {
-        const emailDomain = "@geckskp.ac.in";
+        const emailDomain = "@gecskp.ac.in";
         if (!email.endsWith(emailDomain)) {
-            return res.status(403).json({ message: `Only users with the domain ${allowedDomain} are allowed to sign up.` });
+            return res.status(403).json({ message: `Only users with the domain ${emailDomain} are allowed to sign up.` });
         }
 
         let existingUser = await User.findOne({ email })

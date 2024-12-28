@@ -22,7 +22,11 @@ const stopSchema = new mongoose.Schema({
             }
         }
     },
-
+    distanceToNextStop: {
+        type: Number,
+        min: 0,
+        default: 0
+    }
 
 });
 
