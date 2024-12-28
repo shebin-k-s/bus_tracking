@@ -26,6 +26,11 @@ const stopSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         default: 0
+    },
+    durationToNextStop: {
+        type: Number,
+        min: 0,
+        default: 0
     }
 
 });
