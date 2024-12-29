@@ -28,6 +28,24 @@ const busSchema = new mongoose.Schema({
             required: [true, 'Coordinates are required']
         }
     },
+    startTime: {
+        type: Date,
+        default: Date.now,
+    },
+    status: {
+        type: String,
+        enum: [
+            'running',
+            'stopped',
+            'maintenance'
+        ],
+        default: 'stopped'
+    },
+    direction: {
+        type: String,
+        enum: ['FORWARD', 'REVERSE'],
+        default: 'FORWARD'
+    },
 })
 
 const Bus = mongoose.model('Bus', busSchema)
