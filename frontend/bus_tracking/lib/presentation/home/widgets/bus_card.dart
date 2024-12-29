@@ -2,15 +2,22 @@ import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
 import 'package:bus_tracking/common/widgets/button/basic_app_button.dart';
 import 'package:bus_tracking/core/configs/assets/app_vectors.dart';
 import 'package:bus_tracking/core/navigation_keys/navigation_keys.dart';
+import 'package:bus_tracking/domain/entities/bus/bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BusCard extends StatelessWidget {
-  const BusCard({super.key});
+  const BusCard({
+    super.key,
+    required this.bus,
+  });
+
+  final BusEntity bus;
 
   @override
   Widget build(BuildContext context) {
+    print(bus);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -47,12 +54,12 @@ class BusCard extends StatelessWidget {
             height: 24,
           ),
           label: 'BUS NO',
-          value: 'KL87652',
+          value: bus.busNumber,
         ),
         _headerItem(
           icon: Icons.next_plan_outlined,
           label: 'UPDATED STOP',
-          value: 'Vallapuzha',
+          value: bus.routes.stops[1].name,
         ),
       ],
     );
@@ -93,9 +100,18 @@ class BusCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildRouteDetails(context),
-        _buildTimingDetails(context),
-        _buildActionButtons(context),
+        SizedBox(
+          height: 80.w,
+          child: _buildRouteDetails(context),
+        ),
+        SizedBox(
+          height: 80.w,
+          child: _buildTimingDetails(context),
+        ),
+        SizedBox(
+          height: 80.w,
+          child: _buildActionButtons(context),
+        ),
       ],
     );
   }
@@ -106,8 +122,9 @@ class BusCard extends StatelessWidget {
         Column(
           children: [
             const Icon(Icons.circle_outlined, size: 20),
+            Spacer(),
             SizedBox(
-              height: 30,
+              height: 30.w,
               child: SvgPicture.asset(
                 AppVectors.dottedLine,
                 width: 15,
@@ -115,6 +132,7 @@ class BusCard extends StatelessWidget {
                 color: context.isDarkMode ? Colors.white : Colors.black,
               ),
             ),
+            const Spacer(),
             const Icon(Icons.location_on_outlined),
           ],
         ),
@@ -125,19 +143,19 @@ class BusCard extends StatelessWidget {
             SizedBox(
               width: 80.w,
               child: Text(
-                "pattambi",
+                bus.routes.stops[0].name,
                 style: TextStyle(fontSize: 14.sp),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const SizedBox(height: 33),
+            const Spacer(),
             SizedBox(
               width: 80.w,
               child: Text(
-                "pattambi",
+                bus.routes.stops.last.name,
                 style: TextStyle(fontSize: 14.sp),
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -155,7 +173,7 @@ class BusCard extends StatelessWidget {
           icon: Icons.timer_outlined,
           time: "8:00 AM",
         ),
-        const SizedBox(height: 33),
+        const Spacer(),
         _timingRow(
           icon: Icons.timer_outlined,
           time: "8:00 AM",
@@ -197,16 +215,18 @@ class BusCard extends StatelessWidget {
           height: 35.w,
           titleSize: 13.sp,
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const Spacer(),
         BasicAppButton(
-          onPressed: () {},
-          title: "Track Bus",
-          width: 120.w,
-          height: 35.w,
-          titleSize: 13.sp,
-        ),
+            onPressed: () {
+              GlobalNavigatorKeys.navigatorKeys[0].currentState
+                  ?.pushNamed("/track", arguments: {
+                "bus": bus,
+              });
+            },
+            title: "Track Bus",
+            width: 120.w,
+            height: 35.w,
+            titleSize: 13.sp),
       ],
     );
   }

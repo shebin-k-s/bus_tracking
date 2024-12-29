@@ -1,4 +1,5 @@
 import 'package:bus_tracking/core/configs/theme/app_theme.dart';
+import 'package:bus_tracking/presentation/home/bloc/bus/bus_cubit.dart';
 import 'package:bus_tracking/presentation/profile/bloc/theme/theme_cubit.dart';
 import 'package:bus_tracking/presentation/splash/pages/splash_screen.dart';
 import 'package:bus_tracking/service_locator.dart';
@@ -31,17 +32,25 @@ class MyApp extends StatelessWidget {
       designSize: const Size(393, 852),
       minTextAdapt: true,
       builder: (context, child) {
-        return BlocProvider(
-          create: (context) => ThemeCubit(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => ThemeCubit(),
+            ),
+            BlocProvider(
+              create: (context) => BusCubit(),
+            ),
+          ],
           child: BlocBuilder<ThemeCubit, ThemeMode>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, state) {
-               SystemChrome.setSystemUIOverlayStyle(
+              SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
                   statusBarColor:
                       state == ThemeMode.dark ? Colors.black : Colors.white,
-                  statusBarIconBrightness:
-                      state == ThemeMode.dark ? Brightness.light : Brightness.dark,
+                  statusBarIconBrightness: state == ThemeMode.dark
+                      ? Brightness.light
+                      : Brightness.dark,
                 ),
               );
               return MaterialApp(
@@ -51,7 +60,6 @@ class MyApp extends StatelessWidget {
                 darkTheme: AppTheme.darkTheme,
                 home: const SplashScreen(),
               );
-              
             },
           ),
         );

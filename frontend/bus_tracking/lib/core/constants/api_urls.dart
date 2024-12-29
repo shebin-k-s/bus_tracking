@@ -5,4 +5,7 @@ class ApiUrls {
 
    static const signin = "$baseURL${apiV}auth/signin";
    static const signup = "$baseURL${apiV}auth/signup";
+
+
+   static const fetchBus = "$baseURL${apiV}bus";
 }

@@ -1,7 +1,9 @@
 import 'package:bus_tracking/core/configs/theme/app_colors.dart';
 import 'package:bus_tracking/presentation/auth/widgets/basic_text_form_field.dart';
+import 'package:bus_tracking/presentation/home/bloc/bus/bus_cubit.dart';
 import 'package:bus_tracking/presentation/home/widgets/bus_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,6 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<BusCubit>().fetchBuses();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -93,15 +96,31 @@ class HomeScreen extends StatelessWidget {
                   top: 16,
                   right: 16,
                 ),
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return const BusCard();
+                child: BlocBuilder<BusCubit, BusState>(
+                  builder: (context, state) {
+                    if (state is BusLoaded) {
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return  Column(
+                            children: [
+                              BusCard(
+                                bus: state.buses[index],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          );
+                        },
+                        itemCount: state.buses.length,
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                   },
-                  separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                  itemCount: 5,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
