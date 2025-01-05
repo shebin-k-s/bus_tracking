@@ -1,5 +1,5 @@
 class ApiUrls {
-  static const baseURL = "http://172.31.76.24:3000/";
+  static const baseURL = "https://bus-tracking-ohy5.onrender.com/";
 
   static const apiV = "api/v1/";
 

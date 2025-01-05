@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bus_tracking/core/configs/theme/app_colors.dart';
 import 'package:bus_tracking/presentation/auth/widgets/basic_text_form_field.dart';
 import 'package:bus_tracking/presentation/home/bloc/bus/bus_cubit.dart';
@@ -11,10 +13,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<BusCubit>().fetchBuses();
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    Future<void> fetchBus() async {
+      context.read<BusCubit>().fetchBuses();
+    }
+
+    log("Home screen building");
+    fetchBus();
+    return RefreshIndicator(
+      onRefresh: () => fetchBus(),
+      child: Scaffold(
+        body: Column(
           children: [
             Container(
               width: double.infinity,
@@ -23,70 +31,73 @@ class HomeScreen extends StatelessWidget {
                   color: AppColors.primary,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(30))),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Hey,",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    " Shebin ks",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18.sp,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 45,
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        child: TextSelectionTheme(
-                          data: TextSelectionThemeData(
-                            selectionColor: Colors.black.withOpacity(0.8),
-                            selectionHandleColor: Colors.white.withOpacity(0.3),
-                          ),
-                          child: BasicTextFormField(
-                            controller: TextEditingController(),
-                            label: "Enter destination",
-                            labelSize: 12.w,
-                            mainColor: Colors.white,
-                            iconColor: Colors.white,
-                            prefixIcon: Icons.location_on_outlined,
-                          ),
-                        ),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Hey,",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "GO",
-                            style: TextStyle(
-                              color: Colors.black,
+                    ),
+                    Text(
+                      " Shebin ks",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 45,
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          child: TextSelectionTheme(
+                            data: TextSelectionThemeData(
+                              selectionColor: Colors.black.withOpacity(0.8),
+                              selectionHandleColor:
+                                  Colors.white.withOpacity(0.3),
+                            ),
+                            child: BasicTextFormField(
+                              controller: TextEditingController(),
+                              label: "Enter destination",
+                              labelSize: 12.w,
+                              mainColor: Colors.white,
+                              iconColor: Colors.white,
+                              prefixIcon: Icons.location_on_outlined,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "GO",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -101,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                     if (state is BusLoaded) {
                       return ListView.builder(
                         itemBuilder: (context, index) {
-                          return  Column(
+                          return Column(
                             children: [
                               BusCard(
                                 bus: state.buses[index],
@@ -115,7 +126,11 @@ class HomeScreen extends StatelessWidget {
                         itemCount: state.buses.length,
                       );
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ),
+                      );
                     }
                   },
                 ),

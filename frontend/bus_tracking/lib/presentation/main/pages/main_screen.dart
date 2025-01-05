@@ -1,8 +1,15 @@
+import 'dart:developer';
+
 import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
+import 'package:bus_tracking/common/helpers/navigation.dart';
 import 'package:bus_tracking/core/navigation_keys/navigation_keys.dart';
+import 'package:bus_tracking/presentation/home/bloc/bus/bus_cubit.dart';
+import 'package:bus_tracking/presentation/home/bloc/bus_position/bus_position_cubit.dart';
 import 'package:bus_tracking/presentation/home/pages/home_navigator_screen.dart';
 import 'package:bus_tracking/presentation/main/bloc/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:bus_tracking/presentation/main/widgets/basic_bottom_navigation.dart';
+import 'package:bus_tracking/presentation/onboarding/bloc/carousel/carousel_cubit.dart';
+import 'package:bus_tracking/presentation/onboarding/pages/onboarding_screen.dart';
 import 'package:bus_tracking/presentation/profile/pages/profile_navigator_screen.dart';
 import 'package:bus_tracking/presentation/ticket/pages/ticket_navigator_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +19,6 @@ class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   Future<bool> systemBackButtonPress(int index) async {
-   
     if (GlobalNavigatorKeys.navigatorKeys[index].currentState?.canPop() ==
         true) {
       GlobalNavigatorKeys.navigatorKeys[index].currentState?.pop();
@@ -41,49 +47,58 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BottomNavigationCubit(),
-      child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
-        builder: (context, state) {
-          return WillPopScope(
-            onWillPop: () => systemBackButtonPress(state.selectedIndex),
-            child: Scaffold(
-              body: IndexedStack(
-                index: state.selectedIndex,
-                children: const [
-                  HomeNavigatorScreen(
-                    navigatorIndex: 0,
-                  ),
-                  HomeNavigatorScreen(
-                    navigatorIndex: 1,
-                  ),
-                  TicketNavigatorScreen(
-                    navigatorIndex: 2,
-                  ),
-                  ProfileNavigatorScreen(
-                    navigatorIndex: 3,
-                  ),
-                ],
-              ),
-              bottomNavigationBar: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: context.isDarkMode
-                        ? Colors.white.withOpacity(0.3)
-                        : Colors.black.withOpacity(0.3),
-                    offset: const Offset(0, -1),
-                    blurRadius: 2,
-                    spreadRadius: 0,
-                  ),
-                ]),
-                child: BasicBottomNavigation(
-                  currentIndex: state.selectedIndex,
+    context.read<BusCubit>().reset();
+    context.read<BusPositionCubit>().reset();
+    context.read<BottomNavigationCubit>().reset();
+
+    return BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+      builder: (context, state) {
+        log(state.selectedIndex.toString());
+        return WillPopScope(
+          onWillPop: () => systemBackButtonPress(state.selectedIndex),
+          child: Scaffold(
+            body: IndexedStack(
+              index: state.selectedIndex,
+              children: [
+                const HomeNavigatorScreen(
+                  navigatorIndex: 0,
                 ),
+                const TicketNavigatorScreen(
+                  navigatorIndex: 1,
+                ),
+                const TicketNavigatorScreen(
+                  navigatorIndex: 2,
+                ),
+                ProfileNavigatorScreen(
+                  navigatorIndex: 3,
+                  onLogout: () => AppNavigator.pushAndRemoveUntil(
+                    context,
+                    BlocProvider(
+                      create: (context) => CarouselCubit(),
+                      child: OnboardingScreen(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: context.isDarkMode
+                      ? Colors.white.withOpacity(0.3)
+                      : Colors.black.withOpacity(0.3),
+                  offset: const Offset(0, -1),
+                  blurRadius: 2,
+                  spreadRadius: 0,
+                ),
+              ]),
+              child: BasicBottomNavigation(
+                currentIndex: state.selectedIndex,
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

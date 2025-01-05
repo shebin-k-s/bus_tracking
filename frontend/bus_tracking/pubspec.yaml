@@ -46,6 +46,10 @@ dependencies:
   path_provider:
   flutter_svg:
   intl:
+  socket_io_client:
+  google_maps_flutter:
+  flutter_polyline_points:
+  location:
 
 dev_dependencies:
   flutter_test:

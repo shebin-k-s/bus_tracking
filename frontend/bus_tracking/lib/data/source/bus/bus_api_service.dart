@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bus_tracking/core/constants/api_urls.dart';
 import 'package:bus_tracking/core/network/dio_client.dart';
 import 'package:bus_tracking/domain/entities/bus/bus.dart';
@@ -28,6 +30,7 @@ class BusApiServiceImpl extends BusApiService {
       }
       return Left(response.data['message']);
     } on DioException catch (e) {
+      log(e.toString());
       return Left(e.response?.data['message'] ?? "Network error");
     }
   }

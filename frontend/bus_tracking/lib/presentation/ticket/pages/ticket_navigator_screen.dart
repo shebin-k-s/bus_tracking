@@ -22,17 +22,7 @@ class TicketNavigatorScreen extends StatelessWidget {
             if (settings.name == "/view-bus") {
               return OnboardingScreen();
             }
-            return const TicketScreen(
-              ticketNo: "ticketNo",
-              passengerName: "passengerName",
-              ticketsRemaining: 34,
-              busNumber: "busNumber",
-              startPoint: "startPoint",
-              endPoint: "endPoint",
-              date: "date",
-              time: "time",
-              price: 45,
-            );
+            return  TicketScreen();
           },
         );
       },

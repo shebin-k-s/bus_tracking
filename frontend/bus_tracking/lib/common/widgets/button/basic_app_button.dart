@@ -38,7 +38,7 @@ class BasicAppButton extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: titleSize,
+                  fontSize: titleSize ?? 15.sp,
                 ),
               ),
       ),

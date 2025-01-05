@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class BusEntity {
+  String id;
   Location currentLocation;
   String busNumber;
   Routes routes;
@@ -8,8 +9,8 @@ class BusEntity {
   String status;
   String startTime;
 
-
   BusEntity({
+    required this.id,
     required this.currentLocation,
     required this.busNumber,
     required this.routes,
@@ -21,6 +22,7 @@ class BusEntity {
 
   factory BusEntity.fromJson(Map<String, dynamic> json) {
     return BusEntity(
+      id: json['_id'],
       currentLocation: Location.fromJson(json['currentLocation']),
       busNumber: json['busNumber'],
       routes: Routes.fromJson(json['routeId']),
@@ -28,6 +30,28 @@ class BusEntity {
       driverNumber: json['driverNumber'],
       status: json['status'],
       startTime: json['startTime'],
+    );
+  }
+
+  BusEntity copyWith({
+    String? id,
+    Location? currentLocation,
+    String? busNumber,
+    Routes? routes,
+    String? driverName,
+    String? driverNumber,
+    String? status,
+    String? startTime,
+  }) {
+    return BusEntity(
+      id: id ?? this.id,
+      currentLocation: currentLocation ?? this.currentLocation,
+      busNumber: busNumber ?? this.busNumber,
+      routes: routes ?? this.routes,
+      driverName: driverName ?? this.driverName,
+      driverNumber: driverNumber ?? this.driverNumber,
+      status: status ?? this.status,
+      startTime: startTime ?? this.startTime,
     );
   }
 }
@@ -48,9 +72,11 @@ class Location {
 
 class Routes {
   List<Stop> stops;
+  int delayInSeconds;
 
   Routes({
     required this.stops,
+    this.delayInSeconds = 0,
   });
 
   factory Routes.fromJson(Map<String, dynamic> json) {

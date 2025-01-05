@@ -35,6 +35,8 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
                 } else {
                   Navigator.pop(context);
                 }
+                // FocusScope.of(context).unfocus();
+                // Navigator.pop(context);
               },
               icon: Container(
                 width: 40,

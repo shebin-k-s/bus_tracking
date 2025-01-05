@@ -7,9 +7,11 @@ class ProfileNavigatorScreen extends StatelessWidget {
   const ProfileNavigatorScreen({
     super.key,
     required this.navigatorIndex,
+    required this.onLogout,
   });
 
   final int navigatorIndex;
+  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class ProfileNavigatorScreen extends StatelessWidget {
             if (settings.name == "/view-bus") {
               return OnboardingScreen();
             }
-            return const ProfileScreen();
+            return  ProfileScreen(
+              onLogout: onLogout,
+            );
           },
         );
       },

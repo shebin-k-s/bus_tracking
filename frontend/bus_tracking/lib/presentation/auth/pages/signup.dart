@@ -19,14 +19,11 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-    final TextEditingController emailController =
-        TextEditingController(text: "shebh@gecskp.ac.in");
-    final TextEditingController nameController =
-        TextEditingController(text: "ssss");
-    final TextEditingController passwordController =
-        TextEditingController(text: "ssss");
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     final TextEditingController confirmPasswordController =
-        TextEditingController(text: "ssss");
+        TextEditingController();
     return Scaffold(
       appBar: const BasicAppbar(),
       bottomNavigationBar: Row(

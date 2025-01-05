@@ -39,15 +39,12 @@ class BasicTextFormField extends StatelessWidget {
             validator: validator,
             obscureText: obscureText && !state.showPassword,
             cursorColor: mainColor,
-            style: TextStyle(
-              color: iconColor
-            ),
+            style: TextStyle(color: iconColor),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(
                 bottom: 20,
                 left: 20,
               ),
-              
               labelText: label,
               floatingLabelBehavior: FloatingLabelBehavior.auto,
               floatingLabelStyle: TextStyle(
@@ -58,6 +55,12 @@ class BasicTextFormField extends StatelessWidget {
                         : Colors.black.withOpacity(0.75)),
               ),
               errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red.withOpacity(0.75),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.red.withOpacity(0.75),
                 ),
@@ -97,11 +100,11 @@ class BasicTextFormField extends StatelessWidget {
                               .toggleVisibility(),
                         )
                       : Icon(
-                          suffixIcon,
-                          color: context.isDarkMode
-                              ? Colors.white.withOpacity(0.75)
-                              : Colors.black.withOpacity(0.75),
-                        ),
+                        suffixIcon,
+                        color: context.isDarkMode
+                            ? Colors.white.withOpacity(0.75)
+                            : Colors.black.withOpacity(0.75),
+                      ),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: mainColor,

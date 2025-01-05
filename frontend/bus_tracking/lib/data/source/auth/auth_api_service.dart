@@ -39,6 +39,8 @@ class AuthApiServiceImpl extends AuthApiService {
         final sharedPref = await SharedPreferences.getInstance();
 
         sharedPref.setString("TOKEN", response.data['token']);
+        sharedPref.setString("FULLNAME", response.data['fullName']);
+        sharedPref.setString("EMAIL", response.data['email']);
 
         return Right(response.data['message']);
       }

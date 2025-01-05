@@ -1,6 +1,8 @@
 class AppVectors {
   static const String basePath = "assets/vectors/";
 
+  static const String appIcon = "${basePath}app_icon.svg";
+
   static const String busFilled = "${basePath}bus_filled.svg";
   static const String busOutlined = "${basePath}bus_outlined.svg";
 

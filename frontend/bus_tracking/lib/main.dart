@@ -1,6 +1,9 @@
 import 'package:bus_tracking/core/configs/theme/app_theme.dart';
 import 'package:bus_tracking/presentation/home/bloc/bus/bus_cubit.dart';
+import 'package:bus_tracking/presentation/home/bloc/bus_position/bus_position_cubit.dart';
+import 'package:bus_tracking/presentation/main/bloc/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:bus_tracking/presentation/profile/bloc/theme/theme_cubit.dart';
+import 'package:bus_tracking/presentation/profile/bloc/user_details/user_details_cubit.dart';
 import 'package:bus_tracking/presentation/splash/pages/splash_screen.dart';
 import 'package:bus_tracking/service_locator.dart';
 import 'package:flutter/foundation.dart';
@@ -39,6 +42,15 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => BusCubit(),
+            ),
+             BlocProvider(
+              create: (context) => BusPositionCubit(),
+            ),
+            BlocProvider(
+              create: (context) => BottomNavigationCubit(),
+            ),
+             BlocProvider(
+              create: (context) => UserDetailsCubit(),
             ),
           ],
           child: BlocBuilder<ThemeCubit, ThemeMode>(

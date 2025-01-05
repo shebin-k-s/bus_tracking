@@ -22,9 +22,9 @@ class SigninScreen extends StatelessWidget {
     final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
     final TextEditingController emailController =
-        TextEditingController(text: "shebh@gecskp.ac.in");
+        TextEditingController();
     final TextEditingController passwordController =
-        TextEditingController(text: "ssss");
+        TextEditingController();
     return Scaffold(
       appBar: const BasicAppbar(),
       bottomNavigationBar: Row(
@@ -63,7 +63,9 @@ class SigninScreen extends StatelessWidget {
                 isError: false,
               );
               return AppNavigator.pushAndRemoveUntil(
-                  context, const MainScreen());
+                context,
+                const MainScreen(),
+              );
             }
           },
           child: SingleChildScrollView(
