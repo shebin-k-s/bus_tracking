@@ -27,26 +27,32 @@ class BusCubit extends Cubit<BusState> {
         fetchBuses();
       },
       (data) {
+        log(data.toString());
         final List<BusEntity> buses = (data as List<BusEntity>).map((bus) {
-          final busPosition = findBusPosition(
-            bus.routes.stops,
-            bus.currentLocation.coordinates[1],
-            bus.currentLocation.coordinates[0],
-          );
-          final int delay = DelayCalculator.calculateDelay(
-            DateTime.parse(bus.startTime),
-            bus.routes.stops,
-            busPosition.index,
-            busPosition.progress,
-            LatLng(
+          if (bus.currentLocation.coordinates.length == 2) {
+            final busPosition = findBusPosition(
+              bus.routes.stops,
               bus.currentLocation.coordinates[1],
               bus.currentLocation.coordinates[0],
-            ),
-          );
+            );
+            final int delay = DelayCalculator.calculateDelay(
+              DateTime.parse(bus.startTime),
+              bus.routes.stops,
+              busPosition.index,
+              busPosition.progress,
+              LatLng(
+                bus.currentLocation.coordinates[1],
+                bus.currentLocation.coordinates[0],
+              ),
+            );
+            bus.routes.delayInSeconds = delay;
+          } else {
+            bus.currentLocation = bus.routes.stops[0].location;
+          }
 
-          bus.routes.delayInSeconds = delay;
           return bus;
         }).toList();
+        log("Completed");
         emit(
           BusLoaded(buses: buses),
         );

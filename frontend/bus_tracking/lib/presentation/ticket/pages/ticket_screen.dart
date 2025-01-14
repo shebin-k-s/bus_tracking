@@ -6,7 +6,6 @@ class TicketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int availableTickets = 20;
     return Scaffold(
       body: SafeArea(
         child: Stack(

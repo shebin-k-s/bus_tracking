@@ -49,7 +49,7 @@ dependencies:
   socket_io_client:
   google_maps_flutter:
   flutter_polyline_points:
-  location:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

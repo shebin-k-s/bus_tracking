@@ -135,7 +135,8 @@ class BusRouteDetails extends StatelessWidget {
                                       fontSize: 14,
                                     ),
                                   ),
-                                  if (busPositionIndex < index && bus.status == "Running")
+                                  if (busPositionIndex < index &&
+                                      bus.status == "Running")
                                     Text(
                                       expectedDelayTime,
                                       style: TextStyle(
@@ -174,28 +175,33 @@ class BusRouteDetails extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                stop.name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              if (!isLast)
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  "${(stop.distanceToNextStop / 1000).toStringAsFixed(2)} km",
-                                  style: TextStyle(
-                                    color: context.isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 14,
+                                  stop.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                              const SizedBox(height: 20),
-                            ],
+                                if (!isLast)
+                                  Text(
+                                    "${(stop.distanceToNextStop / 1000).toStringAsFixed(2)} km",
+                                    style: TextStyle(
+                                      color: context.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                         ],
                       );

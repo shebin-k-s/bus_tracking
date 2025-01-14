@@ -18,8 +18,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
+        ? HydratedStorageDirectory.web
+        : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
 
   setupServiceLocator();
@@ -43,13 +43,13 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => BusCubit(),
             ),
-             BlocProvider(
+            BlocProvider(
               create: (context) => BusPositionCubit(),
             ),
             BlocProvider(
               create: (context) => BottomNavigationCubit(),
             ),
-             BlocProvider(
+            BlocProvider(
               create: (context) => UserDetailsCubit(),
             ),
           ],

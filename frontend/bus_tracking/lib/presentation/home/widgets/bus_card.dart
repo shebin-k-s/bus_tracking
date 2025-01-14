@@ -91,7 +91,7 @@ class BusCard extends StatelessWidget {
                   bus.busNumber,
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.black,
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -119,6 +119,7 @@ class BusCard extends StatelessWidget {
                 SizedBox(width: 6.w),
                 Text(
                   bus.status,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: statusColor,
                     fontSize: 14.sp,
@@ -140,7 +141,6 @@ class BusCard extends StatelessWidget {
       padding: EdgeInsets.all(16.w),
       child: Column(
         children: [
-          // Time Info
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

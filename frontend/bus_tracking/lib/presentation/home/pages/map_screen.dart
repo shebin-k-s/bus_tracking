@@ -6,6 +6,7 @@ import 'package:bus_tracking/presentation/home/bloc/map/map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({
@@ -20,51 +21,57 @@ class MapScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MapCubit(busStops)..initialize(),
       child: Scaffold(
-        body: Stack(
-          children: [
-            BlocBuilder<BusPositionCubit, UpdatedBusPosition>(
-              builder: (context, busState) {
-                context
-                    .read<MapCubit>()
-                    .updateBusPosition(busState.busPosition.coordinates);
-                return BlocBuilder<MapCubit, MapState>(
-                  builder: (context, mapState) {
-                    if (mapState is MapLoadingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
-                        ),
-                      );
-                    }
-                    if (mapState is MapLoadedState) {
-                      return GoogleMap(
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        initialCameraPosition: CameraPosition(
-                          target: busState.busPosition.coordinates,
-                          zoom: 15,
-                        ),
-                        polylines: { 
-                          Polyline(
-                            polylineId: const PolylineId("route"),
-                            points: mapState.polylineCoordinates,
-                            color: Colors.green,
-                            width: 5,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              BlocBuilder<BusPositionCubit, UpdatedBusPosition>(
+                builder: (context, busState) {
+                  context
+                      .read<MapCubit>()
+                      .updateBusPosition(busState.busPosition.coordinates);
+                  return BlocBuilder<MapCubit, MapState>(
+                    builder: (context, mapState) {
+                      if (mapState is MapLoadingState) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
                           ),
-                        },
-                        markers: mapState.markers,
-                        onMapCreated: (controller) {
-                          context.read<MapCubit>().setMapController(controller);
-                        },
-                      );
-                    }
-                    return Container();
-                  },
-                );
-              },
-            ),
-            SafeArea(
-              child: Padding(
+                        );
+                      }
+                      if (mapState is MapLoadedState) {
+                        return GoogleMap(
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: true,
+                          padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.65,
+                          ),
+                          initialCameraPosition: CameraPosition(
+                            target: busState.busPosition.coordinates,
+                            zoom: 15,
+                          ),
+                          polylines: {
+                            Polyline(
+                              polylineId: const PolylineId("route"),
+                              points: mapState.polylineCoordinates,
+                              color: Colors.green,
+                              width: 5,
+                            ),
+                          },
+                          markers: mapState.markers,
+                          onMapCreated: (controller) {
+                            context
+                                .read<MapCubit>()
+                                .setMapController(controller);
+                          },
+                        );
+                      }
+                      return Container();
+                    },
+                  );
+                },
+              ),
+              
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
                   onPressed: () {
@@ -87,19 +94,19 @@ class MapScreen extends StatelessWidget {
                             height: 40,
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(
-                                  0.2), // Semi-transparent background
+                                0.7,
+                              ),
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
                       ),
-                      // Foreground content
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            width: 2,
+                            width: 1,
                             color: Colors.black,
                           ),
                           borderRadius: BorderRadius.circular(10),
@@ -114,10 +121,22 @@ class MapScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+  Future<bool> requestLocationPermission() async {
+  PermissionStatus status = await Permission.location.request();
+
+  if (status.isGranted) {
+    return true;
+  } else if (status.isDenied) {
+    print("Location permission denied");
+  } else if (status.isPermanentlyDenied) {
+    await openAppSettings();
+  }
+  return false;
+}
 }

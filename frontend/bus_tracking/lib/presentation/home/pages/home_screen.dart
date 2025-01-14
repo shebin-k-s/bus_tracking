@@ -110,6 +110,13 @@ class HomeScreen extends StatelessWidget {
                 child: BlocBuilder<BusCubit, BusState>(
                   builder: (context, state) {
                     if (state is BusLoaded) {
+                      if (state.buses.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No Bus Found",
+                          ),
+                        );
+                      }
                       return ListView.builder(
                         itemBuilder: (context, index) {
                           return Column(

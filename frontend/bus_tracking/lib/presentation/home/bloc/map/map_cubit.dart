@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -17,7 +16,6 @@ class MapCubit extends Cubit<MapState> {
 
   void initialize() async {
     try {
-      log("initialized called");
       final source = busStops.first.location.coordinates;
       final destination = busStops.last.location.coordinates;
 
@@ -33,7 +31,6 @@ class MapCubit extends Cubit<MapState> {
         polylineCoordinates: polylineCoordinates,
       ));
     } catch (e) {
-      log('Error initializing map: $e');
       await Future.delayed(
         const Duration(milliseconds: 500),
       );
@@ -56,19 +53,6 @@ class MapCubit extends Cubit<MapState> {
         ),
       );
     }
-    // final Uint8List busIcon =
-    //     await getBytesFromAsset(AppImages.busLocator, 100);
-    // markers.add(
-    //   Marker(
-    //     markerId: const MarkerId("bus"),
-    //     position: LatLng(busStops.first.location.coordinates[1],
-    //         busStops.first.location.coordinates[0]),
-    //     icon: BitmapDescriptor.fromBytes(busIcon),
-    //     infoWindow: const InfoWindow(title: "Bus"),
-    //   ),
-    // );
-
-    log("markers added");
     return markers;
   }
 
@@ -99,7 +83,6 @@ class MapCubit extends Cubit<MapState> {
           .map((point) => LatLng(point.latitude, point.longitude))
           .toList();
     } else {
-      log('No route found');
       return [];
     }
   }
@@ -129,11 +112,9 @@ class MapCubit extends Cubit<MapState> {
         ),
       );
 
-      log(" bus location updated");
 
       _mapController.animateCamera(CameraUpdate.newLatLng(busPosition));
     } else {
-      log("Waiting for MapLoadedState...");
       await Future.delayed(const Duration(milliseconds: 100));
       updateBusPosition(busPosition);
     }

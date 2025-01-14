@@ -56,7 +56,7 @@ class BusHeaderCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 3),
                   Text(
-                    bus.status,
+                    bus.status ,
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

@@ -102,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SettingsItem(
-                        title: 'App Theme',
+                        title: 'Dark Theme',
                         icon: Icons.palette_outlined,
                         onTap: () {
                           context.read<ThemeCubit>().toggleTheme(

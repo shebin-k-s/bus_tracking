@@ -1,5 +1,6 @@
 import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
@@ -55,6 +56,9 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
       backgroundColor: backgroundColor ?? Colors.transparent,
+      systemOverlayStyle: context.isDarkMode
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
       actions: [
         action ?? Container(),
       ],
