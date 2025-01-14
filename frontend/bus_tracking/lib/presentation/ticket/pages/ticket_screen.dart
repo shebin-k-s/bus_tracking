@@ -1,11 +1,14 @@
 import 'package:bus_tracking/common/helpers/is_dark_mode.dart';
+import 'package:bus_tracking/presentation/ticket/bloc/ticket/ticket_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TicketScreen extends StatelessWidget {
   const TicketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<TicketCubit>().fetchTicket();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -27,7 +30,9 @@ class TicketScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: context.isDarkMode ? Colors.white : Colors.black87,
+                                color: context.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black87,
                               ),
                             ),
                           ],
@@ -41,7 +46,7 @@ class TicketScreen extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: context.isDarkMode 
+                          colors: context.isDarkMode
                               ? [Colors.blue[700]!, Colors.blue[500]!]
                               : [Colors.blue[600]!, Colors.blue[400]!],
                         ),
@@ -105,21 +110,34 @@ class TicketScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
-                                      '20',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 72,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    BlocBuilder<TicketCubit, TicketState>(
+                                      builder: (context, state) {
+                                        if (state is TicketLoaded) {
+                                          return Text(
+                                            state.ticketCount.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 50,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        } else {
+                                          return const CircularProgressIndicator(
+                                            color: Colors.white,
+                                          );
+                                        }
+                                      },
                                     ),
                                     const SizedBox(width: 16),
-                                    const Text(
-                                      'tickets\nremaining',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        height: 1.2,
+                                    const Expanded(
+                                      child: Text(
+                                        'tickets\nremaining',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          height: 1.2,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -189,7 +207,9 @@ class TicketScreen extends StatelessWidget {
                             child: Icon(
                               Icons.directions_bus_outlined,
                               size: 24,
-                              color: context.isDarkMode ? Colors.white : Colors.blue[600],
+                              color: context.isDarkMode
+                                  ? Colors.white
+                                  : Colors.blue[600],
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -202,14 +222,16 @@ class TicketScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
-                                    color: context.isDarkMode ? Colors.white : Colors.black87,
+                                    color: context.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black87,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'Use these tickets on any bus service',
                                   style: TextStyle(
-                                    color: context.isDarkMode 
+                                    color: context.isDarkMode
                                         ? Colors.grey[400]
                                         : Colors.grey[600],
                                     fontSize: 14,

@@ -5,6 +5,7 @@ import 'package:bus_tracking/presentation/main/bloc/bottom_navigation/bottom_nav
 import 'package:bus_tracking/presentation/profile/bloc/theme/theme_cubit.dart';
 import 'package:bus_tracking/presentation/profile/bloc/user_details/user_details_cubit.dart';
 import 'package:bus_tracking/presentation/splash/pages/splash_screen.dart';
+import 'package:bus_tracking/presentation/ticket/bloc/ticket/ticket_cubit.dart';
 import 'package:bus_tracking/service_locator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => BusCubit(),
+            ),
+            BlocProvider(
+              create: (context) => TicketCubit(),
             ),
             BlocProvider(
               create: (context) => BusPositionCubit(),

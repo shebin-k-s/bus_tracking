@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   late final Dio _dio;
@@ -9,7 +10,22 @@ class DioClient {
               responseType: ResponseType.json,
               sendTimeout: const Duration(seconds: 10),
               receiveTimeout: const Duration(seconds: 20)),
-        );
+        ){
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final sharedPref = await SharedPreferences.getInstance();
+          final token = sharedPref.getString("TOKEN");
+
+          if (token != null) {
+            options.headers['authorization'] = token;
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+        }
+
 
   // GET METHOD
   Future<Response> get(
